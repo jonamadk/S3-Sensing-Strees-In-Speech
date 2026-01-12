@@ -1,0 +1,66 @@
+{
+  "model_name": "speech_to_text_transformer",
+  "description": "Transformer-based Speech-to-Text model configuration",
+  
+  "data": {
+    "train_file": "data/train.json",
+    "val_file": "data/val.json",
+    "audio_dir": "data_source/en/clips",
+    "vocab_file": "data/vocab.json",
+    "sample_rate": 16000
+  },
+  
+  "model": {
+    "input_dim": 80,
+    "d_model": 512,
+    "num_encoder_layers": 6,
+    "num_decoder_layers": 6,
+    "num_heads": 8,
+    "d_ff": 2048,
+    "max_seq_length": 5000,
+    "dropout": 0.1
+  },
+  
+  "training": {
+    "num_epochs": 100,
+    "batch_size": 32,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0001,
+    "label_smoothing": 0.1,
+    "gradient_clip": 1.0,
+    "use_amp": true,
+    "num_workers": 4
+  },
+  
+  "optimization": {
+    "optimizer": "adamw",
+    "scheduler": "reduce_on_plateau",
+    "scheduler_patience": 3,
+    "scheduler_factor": 0.5
+  },
+  
+  "early_stopping": {
+    "patience": 10,
+    "min_delta": 0.001
+  },
+  
+  "checkpointing": {
+    "checkpoint_dir": "models/checkpoints",
+    "save_frequency": 1
+  },
+  
+  "audio_processing": {
+    "n_mels": 80,
+    "n_fft": 400,
+    "hop_length": 160,
+    "win_length": 400,
+    "max_audio_len": 3000,
+    "max_text_len": 500
+  },
+  
+  "inference": {
+    "beam_width": 5,
+    "max_decode_len": 100,
+    "length_penalty": 0.6
+  }
+}
