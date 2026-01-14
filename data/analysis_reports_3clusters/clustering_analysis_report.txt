@@ -1,0 +1,53 @@
+================================================================================
+VOWEL-BASED WORD STRESS CLUSTERING - COMPREHENSIVE ANALYSIS REPORT
+================================================================================
+
+Dataset: 1051 words
+Features analyzed: vowel duration, pitch dynamics, energy, prominence
+
+--------------------------------------------------------------------------------
+CLUSTER DISTRIBUTION
+--------------------------------------------------------------------------------
+UNSTRESSED     :  518 words (49.29%)
+SECONDARY      :  476 words (45.29%)
+PRIMARY        :   57 words ( 5.42%)
+
+--------------------------------------------------------------------------------
+FEATURE STATISTICS BY STRESS LEVEL
+--------------------------------------------------------------------------------
+              vowel_duration  vowel_ratio   pitch_max  pitch_range  energy_max  prominence_score
+stress_label                                                                                    
+primary             0.161404     0.275770  440.504386   297.089825    0.072470          2.053629
+secondary           0.290739     0.457358  207.031492    31.059643    0.080795          0.515046
+unstressed          0.148288     0.261265   87.049015    12.191506    0.043066         -0.699264
+
+--------------------------------------------------------------------------------
+STATISTICAL SIGNIFICANCE TESTS
+--------------------------------------------------------------------------------
+         Feature  ANOVA F-stat  ANOVA p-value  Kruskal H-stat  Kruskal p-value Significant (p<0.05)
+  vowel_duration    174.418858   4.100463e-66      288.463690     2.295649e-63                  Yes
+     vowel_ratio    141.664525   3.497503e-55      211.944311     9.481514e-47                  Yes
+       pitch_max    597.015438  8.572736e-174      488.844551    7.059182e-107                  Yes
+     pitch_range   1752.938563   0.000000e+00      285.857144     8.451035e-63                  Yes
+      energy_max     67.874024   1.911840e-28      167.577174     4.083936e-37                  Yes
+prominence_score   1054.785279  1.019311e-251      771.606621    2.803827e-168                  Yes
+   word_duration     23.450319   1.088841e-10       39.667202     2.434314e-09                  Yes
+
+--------------------------------------------------------------------------------
+CLUSTERING QUALITY METRICS
+--------------------------------------------------------------------------------
+Silhouette Score:        0.2718
+Davies-Bouldin Index:    1.2210
+Calinski-Harabasz Score: 421.5724
+
+--------------------------------------------------------------------------------
+KEY FINDINGS
+--------------------------------------------------------------------------------
+1. Primary stressed words have 1.09x longer vowels than unstressed
+2. Primary words have 353.5 Hz higher pitch than unstressed
+3. Statistically significant features (p<0.05): vowel_duration, vowel_ratio, pitch_max, pitch_range, energy_max, prominence_score, word_duration
+4. Moderate cluster separation (silhouette=0.272)
+
+================================================================================
+END OF REPORT
+================================================================================
