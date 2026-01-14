@@ -1,4 +1,4 @@
-# S3-Sensing-Stress-In-Speech;
+# S3-Sensing-Stress-In-Speech
 
 This project is an end to end deep learning work that includes phoenem level prosodic features such as pitch, energy, pronounciation duration, vowel ratio, consonant presence, utterance behavior,pitch flow, enerygy flow, pause etc to classify word in speech as primary, secondary and un-stressed.  This project converts spoken audio into text and extracts detailed phoneme-level prosodic features for linguistic analysis. The project studies the traditional ML models and State of Art DL models including Multi-head Attention based model.
 
