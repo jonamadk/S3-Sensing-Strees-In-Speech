@@ -1,6 +1,6 @@
 # S3-Sensing-Stress-In-Speech
 
-This project is an end to end deep learning work that converts spoken audio into text and extracts detailed phoneme-level prosodic features for linguistic analysis. The phoenem level prosodic features such as pitch, energy, pronounciation duration, vowel ratio, consonant presence, utterance behavior,pitch flow, enerygy flow, pause etc is labeled as primary, secondary and un-stressed using clustering algorithm K-Means, GMM and Hierarchical with statistical validation.  Next, The project studies the traditional ML models and State of Art DL models including Multi-head Attention based model to develop the word stress classifier on the labelled dataset.
+This project is an end to end deep learning work that converts spoken audio into text and extracts detailed phoneme-level prosodic features for linguistic analysis. The phoneme level prosodic features such as pitch, energy, pronunciation duration, vowel ratio, consonant presence, utterance behavior, pitch flow, energy flow, pause etc is labeled as primary, secondary and un-stressed using clustering algorithm K-Means, GMM and Hierarchical with statistical validation. Next, The project studies the traditional ML models and State of Art DL models including Multi-head Attention based model to develop the word stress classifier on the labelled dataset.
 
 
 **Features**
@@ -74,9 +74,9 @@ python train_stress_models.py \
 
 ## Features
 
-### 🎤 Speech Recognition
+###  Speech Recognition
 
-✨ **Transformer Architecture**
+ **Transformer Architecture**
 - Multi-head self-attention mechanism
 - Encoder-decoder architecture
 - Positional encoding for sequence modeling
@@ -88,7 +88,7 @@ python train_stress_models.py \
 - Support for various audio formats via torchaudio
 - Real-time audio processing capability
 
-📈 **Training Features**
+ **Training Features**
 - Mixed precision training (AMP) for faster training
 - Gradient clipping for stable training
 - Learning rate scheduling
@@ -96,51 +96,49 @@ python train_stress_models.py \
 - Automatic checkpointing (best & latest models)
 - WER (Word Error Rate) and CER (Character Error Rate) metrics
 
-🎯 **Inference Options**
+ **Inference Options**
 - File-based transcription
 - Real-time microphone transcription
 - Greedy decoding
 - Beam search decoding for improved accuracy
 
-### 🎵 Prosody & Word Stress Analysis
+###  Prosody & Word Stress Analysis
 
-🔤 **Phoneme Extraction**
+ **Phoneme Extraction**
 - ARPAbet phoneme representation with extended IPA mapping
 - espeak-based word-to-IPA conversion
 - 39 unique ARPAbet phonemes (AA, AE, AH, AO, ...)
 - Automatic unknown symbol fixing (ɒ, a, e, ɐ, ɜ → ARPAbet)
 
-📊 **Prosodic Features (42 per word)**
+ **Prosodic Features (42 per word)**
 - **Duration**: vowel_duration, consonant_duration, vowel_ratio
 - **Pitch**: mean, max, range, slope, variability (Praat F0, 75-600 Hz)
 - **Energy**: RMS amplitude (mean, max)
 - **Pauses**: pre/post pause detection
 - **Position**: normalized utterance position
 
-🎯 **Vowel-Based Clustering**
+ **Vowel-Based Clustering**
 - KMeans clustering with prominence scoring
 - 3-class: primary stress, secondary stress, unstressed
 - 2-class: stressed vs unstressed (binary)
 - Z-score normalization for feature weighting
 - Prominence formula: 0.5×vowel_duration + 0.5×pitch_max + 0.3×pitch_range + ...
 
-🤖 **Machine Learning Models**
+ **Machine Learning Models**
 - **6 trained models**: KNN, Decision Tree, Random Forest, Naive Bayes, Neural Network, XGBoost
 - **Best model**: Neural Network (98.73% accuracy, F1=0.9873)
 - **Learning curves**: Overfitting detection and validation
 - **Feature importance**: prominence_score, vowel_duration, pitch_max
 - **Training history plots**: Loss curves and performance metrics
 - **Model persistence**: PKL files for deployment
-- Z-score normalization for feature weighting
-- Prominence formula: 0.5×vowel_duration + 0.5×pitch_max + 0.3×pitch_range + ...
 
-📈 **Statistical Validation**
+ **Statistical Validation**
 - **ANOVA & Kruskal-Wallis tests**: Feature significance (p < 1e-28)
 - **Clustering metrics**: Silhouette (0.60), Davies-Bouldin, Calinski-Harabasz
 - **14+ visualizations**: Vowel distributions, pitch/energy relationships, 3D scatter, ridge plots
 - **Reports**: Comprehensive markdown summaries with statistics
 
-🔧 **Data Quality**
+ **Data Quality**
 - Extended IPA2ARPABET mapping (30+ symbols)
 - Retroactive unknown symbol fixing
 - Backup creation before modifications
@@ -150,7 +148,7 @@ python train_stress_models.py \
 
 ```
 DL/
-├── 🎤 ASR (Speech-to-Text)
+├──  ASR (Speech-to-Text)
 │   ├── prepare_dataset.py       # Dataset preparation
 │   ├── pipeline.py              # Complete automation pipeline
 │   ├── evaluate_model.py        # Model evaluation on test set
@@ -192,7 +190,7 @@ DL/
 │           ├── ANALYSIS_SUMMARY.md
 │           └── 14 visualization charts
 │
-├── 🤖 Machine Learning Models
+├──  Machine Learning Models
 │   └── models/                  # Trained ML models
 │       ├── best_model.pkl       # Best performing model (Neural Network)
 │       ├── knn_model.pkl
@@ -211,7 +209,7 @@ DL/
 │       ├── model_results.csv
 │       └── model_info.json
 │
-├── 📊 Shared Data
+├──  Shared Data
 │   ├── data/
 │   │   ├── train.json           # Training data manifest
 │   │   ├── val.json             # Validation data manifest
@@ -592,10 +590,8 @@ If you already have transcriptions:
 
 ### Recommended Datasets
 
-- **LibriSpeech**: Free English speech corpus
-- **Common Voice**: Multilingual dataset
-- **TIMIT**: Phonetic speech corpus
-- **Custom recordings**: Record your own data
+- **Mozilla Common Voice Speech  dataset**: Free English speech corpus
+
 
 ## Configuration
 
@@ -953,34 +949,39 @@ MIT License - feel free to use for research and commercial purposes.
 - [IPA](https://www.internationalphoneticassociation.org/) - International Phonetic Alphabet
 - Vowel-based stress detection using KMeans clustering
 - Prosodic feature extraction for linguistic analysis
-  
-- Run cmds
-  - ```(sst) ➜  DL  ./generate_word_stress_from_audio.sh 1000  ```
 
-``` python cluster_word_stress.py  --input-json data/prosody_500samples/phoneme_features_arpabet.json  --output-dir data/word_stress_500samples --n-clusters 3 --method kmeans ```
+### Example Commands
 
-```python train_attention_models.py --input-json data/word_stress_500samples/word_stress_features.json --output-dir models_attention --test-size 0.2 --batch-size 64 --epochs 100 --lr 0.001 --random-state 42```
+```bash
+# Generate word stress dataset with 1000 samples
+./generate_word_stress_from_audio.sh 1000
 
-```
-python validate_attention_generalization.py  --input-json data/word_stress_500samples/word_stress_features.json \
+# Cluster word stress
+python cluster_word_stress.py \
+  --input-json data/prosody_500samples/phoneme_features_arpabet.json \
+  --output-dir data/word_stress_500samples \
+  --n-clusters 3 \
+  --method kmeans
+
+# Train attention models
+python train_attention_models.py \
+  --input-json data/word_stress_500samples/word_stress_features.json \
+  --output-dir models_attention \
+  --test-size 0.2 \
+  --batch-size 64 \
+  --epochs 100 \
+  --lr 0.001 \
+  --random-state 42
+
+# Validate attention generalization
+python validate_attention_generalization.py \
+  --input-json data/word_stress_500samples/word_stress_features.json \
   --output-dir models_attention \
   --k-folds 5 \
   --bootstrap-iterations 10 \
-  --epochs 50 ```
-## Contributing
+  --epochs 50
+```
 
-Contributions welcome! Please:
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## Support
-
-For issues and questions:
-- Open an issue on GitHub
-- Check existing issues and documentation
-- Provide error messages and system info
 
 ## Acknowledgments
 
@@ -999,4 +1000,4 @@ Special thanks to the open-source community for these amazing tools!
 
 ---
 
-**Happy Training! **
+**Happy Training!**
