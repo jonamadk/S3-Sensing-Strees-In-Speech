@@ -1,15 +1,16 @@
 # S3-Sensing-Stress-In-Speech
 
-This project is an end to end deep learning work that includes phoenem level prosodic features such as pitch, energy, pronounciation duration, vowel ratio, consonant presence, utterance behavior,pitch flow, enerygy flow, pause etc to classify word in speech as primary, secondary and un-stressed.  This project converts spoken audio into text and extracts detailed phoneme-level prosodic features for linguistic analysis. The project studies the traditional ML models and State of Art DL models including Multi-head Attention based model.
+This project is an end to end deep learning work that converts spoken audio into text and extracts detailed phoneme-level prosodic features for linguistic analysis. The phoenem level prosodic features such as pitch, energy, pronounciation duration, vowel ratio, consonant presence, utterance behavior,pitch flow, enerygy flow, pause etc is labeled as primary, secondary and un-stressed using clustering algorithm K-Means, GMM and Hierarchical with statistical validation.  Next, The project studies the traditional ML models and State of Art DL models including Multi-head Attention based model to develop the word stress classifier on the labelled dataset.
 
 
 **Features**
 - Automatic phoneme extraction using ARPAbet with IPA mapping
 - Vowel-focused prosodic feature analysis (duration, pitch, energy)
-- KMeans clustering for word stress detection (primary/secondary/unstressed)
+- KMeans and Hierarchical clustering for word stress detection (primary/secondary/unstressed)
 - Comprehensive statistical validation with 14+ visualizations
 - Zero unknown IPA symbols with extended mapping support
--  
+- ML Classifiers ( Random Forest, Decision Tree, Naive Bayes, KNN) and Multi Perceptron Neural Network
+- Multi-head attention model for both speech to text and word stress classification
 
 **Automated Dataset Preparation with Whisper!**
 - Automatically transcribe audio files using OpenAI's Whisper
