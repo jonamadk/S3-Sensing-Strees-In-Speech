@@ -74,9 +74,9 @@ python train_stress_models.py \
 
 ## Features
 
-### 🎤 Speech Recognition
+###  Speech Recognition
 
-✨ **Transformer Architecture**
+ **Transformer Architecture**
 - Multi-head self-attention mechanism
 - Encoder-decoder architecture
 - Positional encoding for sequence modeling
@@ -88,7 +88,7 @@ python train_stress_models.py \
 - Support for various audio formats via torchaudio
 - Real-time audio processing capability
 
-📈 **Training Features**
+ **Training Features**
 - Mixed precision training (AMP) for faster training
 - Gradient clipping for stable training
 - Learning rate scheduling
@@ -96,35 +96,35 @@ python train_stress_models.py \
 - Automatic checkpointing (best & latest models)
 - WER (Word Error Rate) and CER (Character Error Rate) metrics
 
-🎯 **Inference Options**
+ **Inference Options**
 - File-based transcription
 - Real-time microphone transcription
 - Greedy decoding
 - Beam search decoding for improved accuracy
 
-### 🎵 Prosody & Word Stress Analysis
+###  Prosody & Word Stress Analysis
 
-🔤 **Phoneme Extraction**
+ **Phoneme Extraction**
 - ARPAbet phoneme representation with extended IPA mapping
 - espeak-based word-to-IPA conversion
 - 39 unique ARPAbet phonemes (AA, AE, AH, AO, ...)
 - Automatic unknown symbol fixing (ɒ, a, e, ɐ, ɜ → ARPAbet)
 
-📊 **Prosodic Features (42 per word)**
+ **Prosodic Features (42 per word)**
 - **Duration**: vowel_duration, consonant_duration, vowel_ratio
 - **Pitch**: mean, max, range, slope, variability (Praat F0, 75-600 Hz)
 - **Energy**: RMS amplitude (mean, max)
 - **Pauses**: pre/post pause detection
 - **Position**: normalized utterance position
 
-🎯 **Vowel-Based Clustering**
+ **Vowel-Based Clustering**
 - KMeans clustering with prominence scoring
 - 3-class: primary stress, secondary stress, unstressed
 - 2-class: stressed vs unstressed (binary)
 - Z-score normalization for feature weighting
 - Prominence formula: 0.5×vowel_duration + 0.5×pitch_max + 0.3×pitch_range + ...
 
-🤖 **Machine Learning Models**
+ **Machine Learning Models**
 - **6 trained models**: KNN, Decision Tree, Random Forest, Naive Bayes, Neural Network, XGBoost
 - **Best model**: Neural Network (98.73% accuracy, F1=0.9873)
 - **Learning curves**: Overfitting detection and validation
@@ -132,13 +132,13 @@ python train_stress_models.py \
 - **Training history plots**: Loss curves and performance metrics
 - **Model persistence**: PKL files for deployment
 
-📈 **Statistical Validation**
+ **Statistical Validation**
 - **ANOVA & Kruskal-Wallis tests**: Feature significance (p < 1e-28)
 - **Clustering metrics**: Silhouette (0.60), Davies-Bouldin, Calinski-Harabasz
 - **14+ visualizations**: Vowel distributions, pitch/energy relationships, 3D scatter, ridge plots
 - **Reports**: Comprehensive markdown summaries with statistics
 
-🔧 **Data Quality**
+ **Data Quality**
 - Extended IPA2ARPABET mapping (30+ symbols)
 - Retroactive unknown symbol fixing
 - Backup creation before modifications
@@ -148,7 +148,7 @@ python train_stress_models.py \
 
 ```
 DL/
-├── 🎤 ASR (Speech-to-Text)
+├──  ASR (Speech-to-Text)
 │   ├── prepare_dataset.py       # Dataset preparation
 │   ├── pipeline.py              # Complete automation pipeline
 │   ├── evaluate_model.py        # Model evaluation on test set
@@ -190,7 +190,7 @@ DL/
 │           ├── ANALYSIS_SUMMARY.md
 │           └── 14 visualization charts
 │
-├── 🤖 Machine Learning Models
+├──  Machine Learning Models
 │   └── models/                  # Trained ML models
 │       ├── best_model.pkl       # Best performing model (Neural Network)
 │       ├── knn_model.pkl
@@ -209,7 +209,7 @@ DL/
 │       ├── model_results.csv
 │       └── model_info.json
 │
-├── 📊 Shared Data
+├──  Shared Data
 │   ├── data/
 │   │   ├── train.json           # Training data manifest
 │   │   ├── val.json             # Validation data manifest
@@ -590,10 +590,8 @@ If you already have transcriptions:
 
 ### Recommended Datasets
 
-- **LibriSpeech**: Free English speech corpus
-- **Common Voice**: Multilingual dataset
-- **TIMIT**: Phonetic speech corpus
-- **Custom recordings**: Record your own data
+- **Mozilla Common Voice Speech  dataset**: Free English speech corpus
+
 
 ## Configuration
 
@@ -983,20 +981,7 @@ python validate_attention_generalization.py \
   --bootstrap-iterations 10 \
   --epochs 50
 ```
-## Contributing
 
-Contributions welcome! Please:
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## Support
-
-For issues and questions:
-- Open an issue on GitHub
-- Check existing issues and documentation
-- Provide error messages and system info
 
 ## Acknowledgments
 
