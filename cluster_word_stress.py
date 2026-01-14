@@ -12,8 +12,11 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.cluster import KMeans
+from sklearn.cluster import KMeans, AgglomerativeClustering
 from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import silhouette_score, davies_bouldin_score, calinski_harabasz_score
+from scipy.cluster.hierarchy import dendrogram, linkage
+from scipy.spatial.distance import pdist
 from collections import defaultdict
 
 
@@ -221,23 +224,24 @@ def aggregate_word_features(phonemes: list) -> pd.DataFrame:
     return df.sort_values('word_start').reset_index(drop=True)
 
 
-def cluster_stress_levels(df: pd.DataFrame, n_clusters: int = 2) -> pd.DataFrame:
+def cluster_stress_levels(df: pd.DataFrame, n_clusters: int = 2, method: str = 'kmeans') -> tuple:
     """
-    Cluster words by prominence score using KMeans.
+    Cluster words by prominence score using KMeans or Hierarchical clustering.
 
     Args:
         df: DataFrame with vowel-based features and prominence_score
         n_clusters: Number of clusters (2 for stressed/unstressed, 3 for primary/secondary/unstressed)
+        method: Clustering method ('kmeans' or 'hierarchical')
 
     Returns:
-        DataFrame with 'cluster' and 'stress_label' columns added
+        Tuple of (DataFrame with cluster labels, clustering_metrics dict, X_scaled, scaler)
     """
     if df.empty:
-        return df
+        return df, {}, None, None
 
     # Select features for clustering
     feat_cols = ['vowel_duration', 'vowel_ratio', 'pitch_mean', 'pitch_max',
-                 'pitch_range', 'pitch_slope', 'pitch_std', 'pre_pause', 'prominence_score']
+                 'pitch_range', 'pitch_slope', 'pitch_std', 'pre_pause', 'energy_max']
 
     # Ensure columns exist
     feat_cols = [c for c in feat_cols if c in df.columns]
@@ -247,13 +251,23 @@ def cluster_stress_levels(df: pd.DataFrame, n_clusters: int = 2) -> pd.DataFrame
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
 
-    # KMeans clustering
-    kmeans = KMeans(n_clusters=n_clusters, random_state=42, n_init=20)
-    df['cluster'] = kmeans.fit_predict(X_scaled)
+    # Perform clustering based on method
+    if method == 'kmeans':
+        clusterer = KMeans(n_clusters=n_clusters, random_state=42, n_init=20)
+        df['cluster'] = clusterer.fit_predict(X_scaled)
+        cluster_col = 'cluster'
+    elif method == 'hierarchical':
+        clusterer = AgglomerativeClustering(
+            n_clusters=n_clusters, linkage='ward')
+        df['hierarchical_cluster'] = clusterer.fit_predict(X_scaled)
+        cluster_col = 'hierarchical_cluster'
+    else:
+        raise ValueError(
+            f"Unknown method: {method}. Use 'kmeans' or 'hierarchical'")
 
     # Map clusters to stress labels based on prominence score
     cluster_prominence = df.groupby(
-        'cluster')['prominence_score'].mean().sort_values()
+        cluster_col)['prominence_score'].mean().sort_values()
 
     if n_clusters == 2:
         # stressed/unstressed
@@ -273,9 +287,19 @@ def cluster_stress_levels(df: pd.DataFrame, n_clusters: int = 2) -> pd.DataFrame
         mapping = {c: f'level_{i}' for i,
                    c in enumerate(cluster_prominence.index)}
 
-    df['stress_label'] = df['cluster'].map(mapping)
+    label_col = f'{method}_stress_label'
+    df[label_col] = df[cluster_col].map(mapping)
 
-    return df
+    # Calculate clustering metrics
+    metrics = {
+        'method': method,
+        'n_clusters': n_clusters,
+        'silhouette': silhouette_score(X_scaled, df[cluster_col]),
+        'davies_bouldin': davies_bouldin_score(X_scaled, df[cluster_col]),
+        'calinski_harabasz': calinski_harabasz_score(X_scaled, df[cluster_col])
+    }
+
+    return df, metrics, X_scaled, scaler
 
 
 def visualize_stress_clusters(df: pd.DataFrame, output_dir: str):
@@ -391,6 +415,8 @@ def main():
     parser.add_argument('--output-dir', required=True, help='Output directory')
     parser.add_argument('--n-clusters', type=int, default=3,
                         help='Number of stress levels (2 for stressed/unstressed, 3 for primary/secondary/unstressed)')
+    parser.add_argument('--method', choices=['kmeans', 'hierarchical', 'both'], default='both',
+                        help='Clustering method to use (default: both)')
 
     args = parser.parse_args()
 
@@ -403,9 +429,73 @@ def main():
     print(f"Extracting vowel-based features from {len(phonemes)} phonemes...")
     word_df = aggregate_word_features(phonemes)
 
-    print(
-        f"Clustering {len(word_df)} words into {args.n_clusters} stress levels...")
-    word_df = cluster_stress_levels(word_df, args.n_clusters)
+    # Store all metrics for comparison
+    all_metrics = []
+
+    # Run clustering based on method
+    methods_to_run = [
+        'kmeans', 'hierarchical'] if args.method == 'both' else [args.method]
+
+    for method in methods_to_run:
+        print(f"\n{'='*70}")
+        print(
+            f"Clustering {len(word_df)} words into {args.n_clusters} stress levels using {method.upper()}...")
+        print('='*70)
+
+        word_df, metrics, X_scaled, scaler = cluster_stress_levels(
+            word_df, args.n_clusters, method=method)
+        all_metrics.append(metrics)
+
+        # Print metrics
+        print(f"\nClustering Quality Metrics ({method.upper()}):")
+        print(
+            f"  Silhouette Score: {metrics['silhouette']:.4f} (higher is better, range: -1 to 1)")
+        print(
+            f"  Davies-Bouldin Index: {metrics['davies_bouldin']:.4f} (lower is better)")
+        print(
+            f"  Calinski-Harabasz Score: {metrics['calinski_harabasz']:.2f} (higher is better)")
+
+        # Print distribution for this method
+        label_col = f'{method}_stress_label'
+        print(f"\nStress distribution ({method}):")
+        print(word_df[label_col].value_counts())
+
+        # Average features by stress level
+        print(f"\nAverage features by stress level ({method}):")
+        summary_cols = ['vowel_duration', 'vowel_ratio', 'pitch_max',
+                        'pitch_range', 'prominence_score']
+        available_cols = [c for c in summary_cols if c in word_df.columns]
+        if available_cols:
+            summary = word_df.groupby(
+                label_col)[available_cols].mean().round(3)
+            print(summary)
+
+        # Sample words from each category
+        print(f"\nSample words by stress level ({method}):")
+        for stress in word_df[label_col].unique():
+            samples = word_df[word_df[label_col] ==
+                              stress]['word'].head(10).tolist()
+            print(f"  {stress.upper()}: {', '.join(samples)}")
+
+    # Save comparison metrics
+    if len(all_metrics) > 1:
+        metrics_df = pd.DataFrame(all_metrics)
+        metrics_path = os.path.join(
+            args.output_dir, 'clustering_comparison.csv')
+        metrics_df.to_csv(metrics_path, index=False)
+        print(f"\n{'='*70}")
+        print("CLUSTERING METHOD COMPARISON")
+        print('='*70)
+        print(metrics_df.to_string(index=False))
+        print(f"\nComparison metrics saved to: {metrics_path}")
+
+    # Prepare final dataset with primary method (for backward compatibility)
+    if 'kmeans_stress_label' in word_df.columns:
+        word_df['stress_label'] = word_df['kmeans_stress_label']
+        word_df['cluster'] = word_df['cluster']
+    elif 'hierarchical_stress_label' in word_df.columns:
+        word_df['stress_label'] = word_df['hierarchical_stress_label']
+        word_df['cluster'] = word_df['hierarchical_cluster']
 
     # Save word-level dataset
     csv_path = os.path.join(args.output_dir, 'word_stress_features.csv')
@@ -417,29 +507,22 @@ def main():
     word_df.to_json(json_path, orient='records', indent=2)
     print(f"Word-level features (JSON) saved to: {json_path}")
 
-    # Print statistics
+    # Generate visualizations (using primary stress_label)
+    print("\nGenerating visualizations...")
+    visualize_stress_clusters(word_df, args.output_dir)
+
     print("\n" + "="*70)
-    print("VOWEL-BASED WORD STRESS CLUSTERING RESULTS")
+    print("CLUSTERING COMPLETE!")
     print("="*70)
-    print(f"Total words: {len(word_df)}")
-    print(f"\nStress distribution:")
-    print(word_df['stress_label'].value_counts())
-
-    print(f"\nAverage features by stress level:")
-    summary_cols = ['vowel_duration', 'vowel_ratio', 'pitch_max',
-                    'pitch_range', 'prominence_score']
-    available_cols = [c for c in summary_cols if c in word_df.columns]
-    if available_cols:
-        summary = word_df.groupby('stress_label')[
-            available_cols].mean().round(3)
-        print(summary)
-
-    # Sample words from each category
-    print(f"\nSample words by stress level:")
-    for stress in word_df['stress_label'].unique():
-        samples = word_df[word_df['stress_label']
-                          == stress]['word'].head(10).tolist()
-        print(f"  {stress.upper()}: {', '.join(samples)}")
+    print(f"\nOutputs:")
+    print(f"  - CSV: {csv_path}")
+    print(f"  - JSON: {json_path}")
+    if len(all_metrics) > 1:
+        print(f"  - Comparison: {metrics_path}")
+    print(f"  - Visualizations: {args.output_dir}/word_stress_*.png")
+    samples = word_df[word_df['stress_label']
+                      == stress]['word'].head(10).tolist()
+    print(f"  {stress.upper()}: {', '.join(samples)}")
 
     # Create visualizations
     print("\nGenerating visualizations...")

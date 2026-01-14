@@ -19,9 +19,13 @@ IPA2ARPABET = {
     # Diphthongs (check 2-char first)
     "aʊ": "AW", "aɪ": "AY", "eɪ": "EY", "oʊ": "OW", "ɔɪ": "OY",
     # Vowels
-    "ɑ": "AA", "ɑː": "AA", "æ": "AE", "ʌ": "AH", "ə": "AH0", "ɔ": "AO", "ɔː": "AO",
-    "ɛ": "EH", "ɝ": "ER", "ɚ": "ER0", "ɪ": "IH", "ɨ": "IH0", "ᵻ": "IH0",
-    "i": "IY", "iː": "IY", "ʊ": "UH", "u": "UW", "uː": "UW",
+    "ɑ": "AA", "ɑː": "AA", "æ": "AE", "ʌ": "AH", "ə": "AH0",
+    "ɔ": "AO", "ɔː": "AO", "ɒ": "AO",  # Added ɒ (British "lot" vowel)
+    "ɛ": "EH", "ɝ": "ER", "ɚ": "ER0",
+    "ɪ": "IH", "ɨ": "IH0", "ᵻ": "IH0",
+    "i": "IY", "iː": "IY",
+    "ʊ": "UH", "u": "UW", "uː": "UW",
+    "o": "OW", "e": "EY", "a": "AE", "ɐ": "AH0", "ɜ": "ER",  # Common espeak outputs
     # Consonants (digraphs)
     "tʃ": "CH", "dʒ": "JH", "ð": "DH", "θ": "TH", "ʃ": "SH", "ʒ": "ZH", "ŋ": "NG",
     # Regular consonants

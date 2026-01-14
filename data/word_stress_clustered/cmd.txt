@@ -1,2 +1,0 @@
- source sst/bin/activate && python cluster_word_stress.py --input-json data/prosody_arpabet_full/phoneme_features_arpabet.json --output-dir data/word_stress_clustered --n-clusters 3
-
