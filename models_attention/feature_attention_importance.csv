@@ -1,0 +1,22 @@
+Feature,Attention Weight
+pre_pause,0.16324301
+pitch_std,0.14877936
+num_phonemes,0.11226898
+post_pause,0.083036706
+vowel_pitch_max,0.0497632
+pitch_madiff,0.037982512
+vowel_pitch_mean,0.036086686
+pitch_mean,0.035639808
+energy_max,0.035385832
+pitch_range,0.03314115
+pos_norm_center,0.026942335
+num_vowels,0.026765477
+pitch_max,0.025921093
+energy_mean,0.025206145
+vowel_ratio,0.025035083
+word_duration,0.023628272
+pitch_min,0.022551328
+consonant_duration,0.022546193
+pos_norm_start,0.022387184
+pitch_slope,0.022262065
+vowel_duration,0.021427792

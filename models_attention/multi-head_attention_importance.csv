@@ -1,0 +1,22 @@
+Feature,Attention Weight
+word_duration,1.0
+pitch_slope,0.0
+pos_norm_start,0.0
+post_pause,0.0
+pre_pause,0.0
+energy_max,0.0
+energy_mean,0.0
+vowel_pitch_max,0.0
+vowel_pitch_mean,0.0
+pitch_madiff,0.0
+pitch_std,0.0
+vowel_duration,0.0
+pitch_range,0.0
+pitch_min,0.0
+pitch_max,0.0
+pitch_mean,0.0
+num_phonemes,0.0
+num_vowels,0.0
+vowel_ratio,0.0
+consonant_duration,0.0
+pos_norm_center,0.0
