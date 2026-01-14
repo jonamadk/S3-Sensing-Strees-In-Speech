@@ -112,22 +112,35 @@ STEP 4: Use for Inference
 
 
 ┌──────────────────────────────────────────────────────────────────────────────┐
+│ WHISPER MODEL SELECTION                                                      │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+Model    Size   Speed      Quality   Use Case
+─────────────────────────────────────────────────────────────────────────
+tiny     1GB    ⚡⚡⚡     ⭐⭐      Quick testing
+base     1GB    ⚡⚡       ⭐⭐⭐    Recommended default
+small    2GB    ⚡         ⭐⭐⭐⭐  Better quality
+medium   5GB    🐌         ⭐⭐⭐⭐⭐ High quality
+large    10GB   🐌🐌       ⭐⭐⭐⭐⭐ Maximum quality
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
 │ PROJECT STRUCTURE                                                             │
 └──────────────────────────────────────────────────────────────────────────────┘
 
 DL/
-├──  prepare_dataset.py          # Whisper transcription
-├──  pipeline.py                 # Complete automation
-├──  evaluate_model.py           # Model evaluation
-├──  demo.py                     # Interactive guide
-├──  check_installation.sh       # Installation check
+├── 🆕 prepare_dataset.py          # Whisper transcription
+├── 🆕 pipeline.py                 # Complete automation
+├── 🆕 evaluate_model.py           # Model evaluation
+├── 🆕 demo.py                     # Interactive guide
+├── 🆕 check_installation.sh       # Installation check
 ├── 📚 Documentation
 │   ├── README.md                  # Main documentation
-│   ├──  GETTING_STARTED.md      # Quick start guide
-│   ├──  WORKFLOW_GUIDE.md       # Complete guide
-│   ├──  QUICK_REFERENCE.md      # Command reference
-│   ├──  PROJECT_SUMMARY.md      # Project overview
-│   └──  CHANGELOG.md            # Version history
+│   ├── 🆕 GETTING_STARTED.md      # Quick start guide
+│   ├── 🆕 WORKFLOW_GUIDE.md       # Complete guide
+│   ├── 🆕 QUICK_REFERENCE.md      # Command reference
+│   ├── 🆕 PROJECT_SUMMARY.md      # Project overview
+│   └── 🆕 CHANGELOG.md            # Version history
 ├── src/
 │   ├── model.py                   # Transformer architecture
 │   ├── dataset.py                 # Data loading
@@ -149,22 +162,22 @@ DL/
 │ QUICK COMMANDS                                                               │
 └──────────────────────────────────────────────────────────────────────────────┘
 
- View demo guide:
+📖 View demo guide:
    python demo.py
 
- Check installation:
+✅ Check installation:
    ./check_installation.sh
 
- Run complete pipeline:
+🚀 Run complete pipeline:
    python pipeline.py --audio-dir data/audio
 
- Prepare dataset only:
+📝 Prepare dataset only:
    python prepare_dataset.py --audio-dir data/audio --model-size base
 
 🎓 Train model:
    python src/train.py --config configs/config.json
 
- Evaluate model:
+📊 Evaluate model:
    python evaluate_model.py --model models/checkpoints/best_checkpoint.pt \
      --config configs/config.json --vocab data/vocab.json \
      --test-file data/test.json
@@ -174,11 +187,24 @@ DL/
      --config configs/config.json --vocab data/vocab.json \
      --audio audio.wav
 
- Real-time mode:
+🎙️ Real-time mode:
    python src/inference.py --model models/checkpoints/best_checkpoint.pt \
      --config configs/config.json --vocab data/vocab.json --realtime
 
 
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ EXPECTED TIMELINE                                                            │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+For 100 audio files (10 seconds each):
+
+Phase                  GPU Time    CPU Time
+────────────────────────────────────────────
+Whisper (base)         5 min       20 min
+Training (50 epochs)   30 min      3 hours
+Evaluation            1 min       3 min
+────────────────────────────────────────────
+Total                 ~40 min     ~3.5 hours
 
 
 ┌──────────────────────────────────────────────────────────────────────────────┐
@@ -186,10 +212,10 @@ DL/
 └──────────────────────────────────────────────────────────────────────────────┘
 
 WER (Word Error Rate):
-  < 0.10 (10%)    Excellent
-  0.10 - 0.30     Good
-  0.30 - 0.50     Acceptable
-  > 0.50          Needs improvement
+  < 0.10 (10%)    ⭐⭐⭐⭐⭐  Excellent
+  0.10 - 0.30     ⭐⭐⭐⭐   Good
+  0.30 - 0.50     ⭐⭐⭐     Acceptable
+  > 0.50          ⭐        Needs improvement
 
 
 ┌──────────────────────────────────────────────────────────────────────────────┐
@@ -215,11 +241,11 @@ WER (Word Error Rate):
 
 
 ╔══════════════════════════════════════════════════════════════════════════════╗
-║                          READY TO START!                                   ║
+║                          READY TO START! 🚀                                  ║
 ║                                                                              ║
 ║  For detailed guides, see:                                                   ║
 ║    • GETTING_STARTED.md  - Quick start                                       ║
-║                                  ║
+║    • WORKFLOW_GUIDE.md   - Complete guide                                    ║
 ║    • QUICK_REFERENCE.md  - Command reference                                 ║
 ║                                                                              ║
 ║  Or run: python demo.py                                                      ║
