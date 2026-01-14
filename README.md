@@ -1,6 +1,6 @@
 # S3-Sensing-Stress-In-Speech
 
-This project is an end to end deep learning work that converts spoken audio into text and extracts detailed phoneme-level prosodic features for linguistic analysis. The phoenem level prosodic features such as pitch, energy, pronounciation duration, vowel ratio, consonant presence, utterance behavior,pitch flow, enerygy flow, pause etc is labeled as primary, secondary and un-stressed using clustering algorithm K-Means, GMM and Hierarchical with statistical validation.  Next, The project studies the traditional ML models and State of Art DL models including Multi-head Attention based model to develop the word stress classifier on the labelled dataset.
+This project is an end to end deep learning work that converts spoken audio into text and extracts detailed phoneme-level prosodic features for linguistic analysis. The phoneme level prosodic features such as pitch, energy, pronunciation duration, vowel ratio, consonant presence, utterance behavior, pitch flow, energy flow, pause etc is labeled as primary, secondary and un-stressed using clustering algorithm K-Means, GMM and Hierarchical with statistical validation. Next, The project studies the traditional ML models and State of Art DL models including Multi-head Attention based model to develop the word stress classifier on the labelled dataset.
 
 
 **Features**
@@ -131,8 +131,6 @@ python train_stress_models.py \
 - **Feature importance**: prominence_score, vowel_duration, pitch_max
 - **Training history plots**: Loss curves and performance metrics
 - **Model persistence**: PKL files for deployment
-- Z-score normalization for feature weighting
-- Prominence formula: 0.5×vowel_duration + 0.5×pitch_max + 0.3×pitch_range + ...
 
 📈 **Statistical Validation**
 - **ANOVA & Kruskal-Wallis tests**: Feature significance (p < 1e-28)
@@ -953,20 +951,38 @@ MIT License - feel free to use for research and commercial purposes.
 - [IPA](https://www.internationalphoneticassociation.org/) - International Phonetic Alphabet
 - Vowel-based stress detection using KMeans clustering
 - Prosodic feature extraction for linguistic analysis
-  
-- Run cmds
-  - ```(sst) ➜  DL  ./generate_word_stress_from_audio.sh 1000  ```
 
-``` python cluster_word_stress.py  --input-json data/prosody_500samples/phoneme_features_arpabet.json  --output-dir data/word_stress_500samples --n-clusters 3 --method kmeans ```
+### Example Commands
 
-```python train_attention_models.py --input-json data/word_stress_500samples/word_stress_features.json --output-dir models_attention --test-size 0.2 --batch-size 64 --epochs 100 --lr 0.001 --random-state 42```
+```bash
+# Generate word stress dataset with 1000 samples
+./generate_word_stress_from_audio.sh 1000
 
-```
-python validate_attention_generalization.py  --input-json data/word_stress_500samples/word_stress_features.json \
+# Cluster word stress
+python cluster_word_stress.py \
+  --input-json data/prosody_500samples/phoneme_features_arpabet.json \
+  --output-dir data/word_stress_500samples \
+  --n-clusters 3 \
+  --method kmeans
+
+# Train attention models
+python train_attention_models.py \
+  --input-json data/word_stress_500samples/word_stress_features.json \
+  --output-dir models_attention \
+  --test-size 0.2 \
+  --batch-size 64 \
+  --epochs 100 \
+  --lr 0.001 \
+  --random-state 42
+
+# Validate attention generalization
+python validate_attention_generalization.py \
+  --input-json data/word_stress_500samples/word_stress_features.json \
   --output-dir models_attention \
   --k-folds 5 \
   --bootstrap-iterations 10 \
-  --epochs 50 ```
+  --epochs 50
+```
 ## Contributing
 
 Contributions welcome! Please:
@@ -999,4 +1015,4 @@ Special thanks to the open-source community for these amazing tools!
 
 ---
 
-**Happy Training! **
+**Happy Training!**
