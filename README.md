@@ -1,20 +1,22 @@
-# Speech-to-Text with Prosody & Word Stress Analysis
+# S3-Sensing-Stress-In-Speech;
 
-A complete implementation of transformer-based ASR (Automatic Speech Recognition) with advanced **prosody analysis** and **vowel-based word stress clustering**. This project converts spoken audio into text and extracts detailed phoneme-level prosodic features for linguistic analysis.
+This project is an end to end deep learning work that includes phoenem level prosodic features such as pitch, energy, pronounciation duration, vowel ratio, consonant presence, utterance behavior,pitch flow, enerygy flow, pause etc to classify word in speech as primary, secondary and un-stressed.  This project converts spoken audio into text and extracts detailed phoneme-level prosodic features for linguistic analysis. The project studies the traditional ML models and State of Art DL models including Multi-head Attention based model.
 
-## 🎯 What's New
 
-**Vowel-Based Word Stress Clustering!**
+**Features**
 - Automatic phoneme extraction using ARPAbet with IPA mapping
 - Vowel-focused prosodic feature analysis (duration, pitch, energy)
 - KMeans clustering for word stress detection (primary/secondary/unstressed)
 - Comprehensive statistical validation with 14+ visualizations
 - Zero unknown IPA symbols with extended mapping support
+-  
 
 **Automated Dataset Preparation with Whisper!**
 - Automatically transcribe audio files using OpenAI's Whisper
 - One-command pipeline from raw audio to trained model
 - No manual transcription needed!
+  
+- ** Or you can also use the speech to text attention model developed within the project scope **
 
 ## Quick Start
 
@@ -487,29 +489,7 @@ python train_stress_models.py \
 - `model_results.csv`: Performance metrics table
 - `model_info.json`: Model metadata and parameters
 
-**Example results (500-sample dataset):**
-```
-Neural Network (BEST):
-  - Accuracy: 98.73%
-  - F1-Score: 0.9873
-  - Precision: 98.74%
-  - Recall: 98.73%
 
-Random Forest:
-  - Accuracy: 98.73%
-  - F1-Score: 0.9867
-
-XGBoost:
-  - Accuracy: 98.63%
-  - F1-Score: 0.9856
-```
-
-**Feature importance (top 5):**
-1. `prominence_score` - Weighted combination of prosodic features
-2. `vowel_duration` - Duration of vowel phonemes
-3. `pitch_max` - Maximum pitch in word
-4. `pitch_range` - Pitch variation span
-5. `energy_max` - Maximum energy level
 
 ### Fixing Unknown Symbols
 
@@ -972,6 +952,7 @@ MIT License - feel free to use for research and commercial purposes.
 - [IPA](https://www.internationalphoneticassociation.org/) - International Phonetic Alphabet
 - Vowel-based stress detection using KMeans clustering
 - Prosodic feature extraction for linguistic analysis
+  
 - Run cmds
   - ```(sst) ➜  DL  ./generate_word_stress_from_audio.sh 1000  ```
 
@@ -1017,4 +998,4 @@ Special thanks to the open-source community for these amazing tools!
 
 ---
 
-**Happy Training! 🚀**
+**Happy Training! **
